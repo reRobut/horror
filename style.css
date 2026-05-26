@@ -175,7 +175,7 @@ body.page-index::before {
 /* 玩家 */
 #character-wrap {
   position: absolute;
-  bottom: -8px;
+  bottom: -12px;
   z-index: 10;
   pointer-events: none;
   transform-origin: bottom center;
