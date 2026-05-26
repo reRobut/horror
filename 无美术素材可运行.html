@@ -1,0 +1,311 @@
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+#gc{width:680px;height:420px;position:relative;overflow:hidden;font-family:var(--font-sans);background:#000;outline:none;}
+#tileCanvas{position:absolute;top:0;left:0;}
+#entityLayer{position:absolute;top:0;left:0;width:100%;height:100%;}
+#hud{position:absolute;top:0;left:0;right:0;padding:7px 12px;display:flex;justify-content:space-between;align-items:center;background:rgba(4,2,10,0.75);z-index:20;border-bottom:1px solid #1e0a38;}
+#sanLabel{font-size:11px;color:#9060b0;margin-right:6px;}
+#sanTrack{width:130px;height:7px;background:#110820;border-radius:3px;border:1px solid #2a1050;overflow:hidden;}
+#sanFill{height:100%;background:#b050ff;border-radius:3px;transition:width 0.25s;}
+#sanNum{font-size:11px;color:#a070c0;margin-left:6px;min-width:26px;}
+#timerEl{font-size:13px;color:#c0a0e0;font-weight:500;}
+#waveEl{font-size:11px;color:#805090;}
+.monster{position:absolute;display:flex;flex-direction:column;align-items:center;z-index:8;pointer-events:none;}
+.m1h{width:18px;height:18px;background:#e03030;border-radius:50%;border:1px solid #ff5050;}
+.m1b{width:20px;height:26px;background:#b02020;border-radius:3px 3px 2px 2px;border:1px solid #e04040;margin-top:1px;}
+.m2h{width:20px;height:20px;background:#3050c0;border-radius:30% 70% 30% 70%;border:1px solid #5070ff;}
+.m2b{width:24px;height:28px;background:#2040a0;border-radius:4px;border:1px solid #4060e0;margin-top:1px;}
+.m3h{width:22px;height:22px;background:#208020;border-radius:2px;border:1px solid #30c030;}
+.m3b{width:26px;height:32px;background:#186018;border-radius:1px;border:1px solid #28a028;margin-top:1px;}
+.m3h.rage{background:#60d020;border-color:#90ff40;}
+.m3b.rage{background:#50b018;border-color:#70e030;}
+#overlay{position:absolute;inset:0;z-index:50;background:rgba(4,2,10,0.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
+#ovTitle{font-size:26px;color:#d080ff;font-weight:500;letter-spacing:2px;}
+#ovDesc{font-size:13px;color:#7050a0;text-align:center;max-width:390px;line-height:1.85;}
+.btn{padding:9px 26px;font-size:13px;color:#c080e0;background:transparent;border:1px solid #5030a0;border-radius:5px;cursor:pointer;font-family:var(--font-sans);}
+.btn:hover{background:rgba(80,30,140,0.35);}
+#keys{position:absolute;bottom:0;left:0;right:0;padding:5px 12px;background:rgba(4,2,10,0.7);border-top:1px solid #1e0a38;z-index:20;display:flex;justify-content:center;gap:18px;}
+.ki{font-size:10px;color:#503870;}.ki span{color:#9060d0;}
+.flash{position:absolute;font-size:13px;font-weight:500;z-index:30;pointer-events:none;animation:fu 0.9s forwards;}
+.flash.dmg{color:#ff3060;}.flash.ok{color:#60ff90;}.flash.warn{color:#ffa030;}
+@keyframes fu{0%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-34px);}}
+#legend{position:absolute;left:8px;top:34px;z-index:15;background:rgba(4,2,10,0.82);border:1px solid #1e0a38;border-radius:4px;padding:5px 9px;font-size:10px;line-height:1.8;}
+.lr{display:flex;align-items:center;gap:5px;color:#6040a0;}
+.ld{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+</style>
+
+<div id="gc" tabindex="0">
+  <canvas id="tileCanvas" width="680" height="420"></canvas>
+  <div id="entityLayer"></div>
+  <div id="hud">
+    <div style="display:flex;align-items:center;">
+      <span id="sanLabel">精神值</span>
+      <div id="sanTrack"><div id="sanFill"></div></div>
+      <span id="sanNum">100</span>
+    </div>
+    <div id="timerEl">10:00</div>
+    <div id="waveEl">阶段 1 | 红:5s</div>
+  </div>
+  <div id="legend">
+    <div class="lr"><div class="ld" style="background:#e03030"></div>追击者 — 碰后消失</div>
+    <div class="lr"><div class="ld" style="background:#4060d0"></div>静止者 — 停下消失；动扣san消失</div>
+    <div class="lr"><div class="ld" style="background:#30a030"></div>潜伏者 — 站桩，跑反方向刷掉</div>
+    <div class="lr"><div class="ld" style="background:#80ff30"></div>潜伏者(狂暴) — 追击，碰扣san消失</div>
+  </div>
+  <div id="keys">
+    <div class="ki">移动: <span>← →</span></div>
+    <div class="ki">上下走位: <span>↑ ↓</span></div>
+    <div class="ki">冲刺: <span>Shift</span></div>
+    <div class="ki">静止者: <span>停下消失</span></div>
+    <div class="ki">潜伏者: <span>往反方向跑刷出屏</span></div>
+  </div>
+  <div id="overlay">
+    <div id="ovTitle">噩梦幸存者</div>
+    <div id="ovDesc">在噩梦中存活<b style="color:#c060ff"> 10分钟</b>。<br><br>
+      <b style="color:#e03030">追击者</b> — 初始5秒存活，每2分钟+1秒，碰后消失<br>
+      <b style="color:#5070ff">静止者</b> — 站着接触消失；移动被碰扣san后消失<br>
+      <b style="color:#40c040">潜伏者</b> — 场内站桩，靠近激活狂暴追击<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;往反方向跑让它滚出屏幕边缘销毁</div>
+    <button class="btn" onclick="startGame()">开始游戏</button>
+  </div>
+</div>
+
+<script>
+const gc=document.getElementById('gc');
+const eLayer=document.getElementById('entityLayer');
+const sanFill=document.getElementById('sanFill');
+const sanNum=document.getElementById('sanNum');
+const timerEl=document.getElementById('timerEl');
+const waveEl=document.getElementById('waveEl');
+const overlay=document.getElementById('overlay');
+const ovTitle=document.getElementById('ovTitle');
+const ovDesc=document.getElementById('ovDesc');
+const canvas=document.getElementById('tileCanvas');
+const ctx=canvas.getContext('2d');
+
+const GW=680,GH=420,GROUND=62,TOTAL_TIME=600,TILE_W=80;
+const MAX_FLOAT=50; // 原75，缩减为2/3约50
+const SCREEN_CX=GW/2;
+const LURK_RAGE=110;
+const CULL_X=500,CULL_Y=300;
+
+let playerWX=0,playerWY=0,pMoving=false;
+let san=100,gameTime=TOTAL_TIME,survived=0,running=false;
+let monsters=[],mid=0,keys={},spawnTimer=0;
+let playerEl=null,legT=0;
+
+function getRedLife(){return 5+Math.floor((TOTAL_TIME-gameTime)/120);}
+
+function worldToScreenX(wx){return(wx-playerWX)+SCREEN_CX;}
+
+function drawTiles(){
+  ctx.clearRect(0,0,GW,GH);
+  ctx.fillStyle='#06030f';ctx.fillRect(0,0,GW,GH);
+  const bgP=playerWX*0.15;
+  for(let i=0;i<6;i++){
+    const bx=((i*190-(bgP%190)%190)+GW*4)%GW-10;
+    const bh=70+((i*73+17)%55);
+    ctx.fillStyle='#0f0820';ctx.fillRect(bx,GH-GROUND-bh,85,bh);
+    for(let wy=0;wy<4;wy++)for(let wx=0;wx<3;wx++){ctx.fillStyle='#1a0a30';ctx.fillRect(bx+7+wx*24,GH-GROUND-bh+8+wy*17,14,9);}
+  }
+  const tileScroll=((playerWX%TILE_W)+TILE_W)%TILE_W;
+  const startTile=Math.floor(playerWX/TILE_W);
+  const tc=['#0c0818','#0e0a1c','#0a0714','#10091f','#0b0916'];
+  const fc=['#1a0a2e','#160824','#1e0c34'];
+  for(let tx=-1;tx<=Math.ceil(GW/TILE_W)+1;tx++){
+    const idx=((startTile+tx)%tc.length+tc.length)%tc.length;
+    const sx=tx*TILE_W-tileScroll;
+    ctx.fillStyle=tc[idx];ctx.fillRect(sx,GH-GROUND,TILE_W,GROUND);
+    ctx.strokeStyle='#1a0830';ctx.lineWidth=0.5;
+    ctx.beginPath();ctx.moveTo(sx,GH-GROUND);ctx.lineTo(sx+TILE_W,GH-GROUND);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(sx,GH-GROUND);ctx.lineTo(sx,GH);ctx.stroke();
+    if(((startTile+tx)%4+4)%4===1){ctx.fillStyle=fc[((startTile+tx)%fc.length+fc.length)%fc.length];ctx.fillRect(sx+20,GH-GROUND-7,40,7);}
+  }
+  ctx.strokeStyle='#3a1060';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(0,GH-GROUND);ctx.lineTo(GW,GH-GROUND);ctx.stroke();
+  ctx.fillStyle='rgba(20,5,40,0.1)';ctx.fillRect(0,GH-GROUND-28,GW,18);
+}
+
+function createPlayer(){
+  if(playerEl)playerEl.remove();
+  playerEl=document.createElement('div');
+  playerEl.style.cssText='position:absolute;display:flex;flex-direction:column;align-items:center;z-index:10;';
+  playerEl.innerHTML=`
+    <div style="width:15px;height:15px;background:#d0b0e8;border-radius:50%;border:1px solid #b090d0;"></div>
+    <div style="width:18px;height:26px;background:#b090d0;border-radius:3px 3px 2px 2px;border:1px solid #9070b0;margin-top:1px;"></div>
+    <div style="display:flex;gap:4px;margin-top:1px;">
+      <div id="lL" style="width:6px;height:9px;background:#8060a0;border-radius:0 0 3px 3px;"></div>
+      <div id="lR" style="width:6px;height:9px;background:#8060a0;border-radius:0 0 3px 3px;"></div>
+    </div>`;
+  eLayer.appendChild(playerEl);
+}
+
+function updatePlayerEl(){
+  if(!playerEl)return;
+  playerEl.style.left=(SCREEN_CX-11)+'px';
+  playerEl.style.bottom=(GROUND+playerWY)+'px';
+}
+
+function animLegs(dt){
+  legT+=dt*(pMoving?9:0);
+  const lL=document.getElementById('lL'),lR=document.getElementById('lR');
+  if(lL&&lR){lL.style.height=(6+Math.sin(legT)*3)+'px';lR.style.height=(6+Math.sin(legT+Math.PI)*3)+'px';}
+}
+
+function makeMonsterEl(type){
+  const el=document.createElement('div');el.className='monster';
+  const h=document.createElement('div'),b=document.createElement('div');
+  h.className=`m${type}h`;b.className=`m${type}b`;
+  el.appendChild(h);el.appendChild(b);eLayer.appendChild(el);
+  return{el,h,b};
+}
+
+function spawnMonster(){
+  const progress=1-gameTime/TOTAL_TIME,r=Math.random();
+  let type;
+  if(progress<0.2)type=r<0.65?1:(r<0.88?2:3);
+  else if(progress<0.5)type=r<0.45?1:(r<0.75?2:3);
+  else type=r<0.35?1:(r<0.6?2:3);
+  let wx,wy;
+  if(type===3){
+    const side=Math.random()<0.5?1:-1;
+    wx=playerWX+side*(160+Math.random()*160);
+    wy=Math.random()*MAX_FLOAT;
+  }else{
+    const fromLeft=Math.random()<0.5;
+    wx=playerWX+(fromLeft?-(SCREEN_CX+60):(SCREEN_CX+60));
+    wy=Math.random()*40;
+  }
+  const{el,h,b}=makeMonsterEl(type);
+  monsters.push({id:mid++,type,el,h,b,wx,wy,life:type===1?getRedLife():9999,enraged:false,sanCD:0,speed:type===1?1.6:(type===2?1.2:1.8)});
+}
+
+function getSpawnInterval(){
+  const p=1-gameTime/TOTAL_TIME;
+  return Math.max(1.5,4-p*2.5+(Math.random()*0.6-0.3));
+}
+
+function flashMsg(text,sx,sy,cls){
+  const el=document.createElement('div');
+  el.className='flash '+(cls||'dmg');
+  el.textContent=text;
+  el.style.left=Math.max(0,Math.min(GW-50,sx-18))+'px';
+  el.style.top=Math.max(10,sy-55)+'px';
+  eLayer.appendChild(el);setTimeout(()=>el.remove(),900);
+}
+
+function dealSan(amount,sx,sy){
+  san=Math.max(0,san-amount);
+  flashMsg(`-${amount}`,sx,sy,'dmg');
+  gc.style.outline='3px solid #ff2050';
+  setTimeout(()=>gc.style.outline='',220);
+  if(san<=0)endGame(false);
+}
+
+function updateMonster(m,dt){
+  if(m.sanCD>0)m.sanCD-=dt;
+  const dx=playerWX-m.wx,dy=playerWY-m.wy;
+  const dist=Math.sqrt(dx*dx+dy*dy);
+  const sx=worldToScreenX(m.wx);
+  const screenY=GH-GROUND-m.wy;
+  const hit=dist<22;
+  const offScreen=Math.abs(playerWX-m.wx)>CULL_X||Math.abs(playerWY-m.wy)>CULL_Y;
+
+  if(m.type===1){
+    m.life-=dt;m.el.style.opacity=Math.min(1,m.life/1.2);
+    if(m.life<=0||offScreen)return true;
+    if(dist>0){m.wx+=(dx/dist)*m.speed;m.wy+=(dy/dist)*m.speed*0.4;}
+    if(hit){dealSan(8,sx,screenY);flashMsg('消失',sx,screenY,'ok');return true;}
+  }
+  if(m.type===2){
+    if(offScreen)return true;
+    if(dist>0){m.wx+=(dx/dist)*m.speed;m.wy+=(dy/dist)*m.speed*0.4;}
+    if(hit){
+      if(!pMoving)flashMsg('消失',sx,screenY,'ok');
+      else{dealSan(6,sx,screenY);flashMsg('消失',sx,screenY,'ok');}
+      return true;
+    }
+  }
+  if(m.type===3){
+    if(!m.enraged){
+      if(offScreen)return true;
+      if(dist<LURK_RAGE){
+        m.enraged=true;m.h.className='m3h rage';m.b.className='m3b rage';
+        flashMsg('狂暴!',sx,screenY,'warn');
+      }
+      return false;
+    }
+    if(dist>0){m.wx+=(dx/dist)*m.speed*1.1;m.wy+=(dy/dist)*m.speed*0.45;}
+    if(offScreen)return true;
+    if(hit&&m.sanCD<=0){dealSan(10,sx,screenY);flashMsg('消失',sx,screenY,'ok');return true;}
+  }
+  m.wy=Math.max(0,Math.min(MAX_FLOAT,m.wy));
+  return false;
+}
+
+let lastTs=0;
+function gameLoop(ts){
+  if(!running)return;
+  const dt=Math.min((ts-lastTs)/1000,0.05);lastTs=ts;
+  gameTime-=dt;survived+=dt;
+  if(gameTime<=0){endGame(true);return;}
+
+  const mins=Math.floor(gameTime/60),secs=Math.floor(gameTime%60);
+  timerEl.textContent=`${mins}:${String(secs).padStart(2,'0')}`;
+  waveEl.textContent=`阶段 ${Math.min(5,Math.floor((1-gameTime/TOTAL_TIME)*5)+1)} | 红:${getRedLife()}s`;
+  sanFill.style.width=san+'%';sanNum.textContent=Math.round(san);
+
+  const sprint=keys['ShiftLeft']||keys['ShiftRight'];
+  const spd=sprint?4.2:2.6;
+  let mdx=0,mdy=0;
+  if(keys['ArrowLeft']||keys['KeyA'])mdx=-spd;
+  if(keys['ArrowRight']||keys['KeyD'])mdx=spd;
+  if(keys['ArrowUp']||keys['KeyW'])mdy=spd*0.55;
+  if(keys['ArrowDown']||keys['KeyS'])mdy=-spd*0.55;
+  pMoving=mdx!==0||mdy!==0;
+
+  playerWX+=mdx;
+  playerWY=Math.max(0,Math.min(MAX_FLOAT,playerWY+mdy));
+
+  animLegs(dt);
+  updatePlayerEl();
+  drawTiles();
+
+  spawnTimer-=dt;
+  if(spawnTimer<=0){spawnMonster();spawnTimer=getSpawnInterval();}
+
+  for(let i=monsters.length-1;i>=0;i--){
+    const m=monsters[i];
+    if(updateMonster(m,dt)){m.el.remove();monsters.splice(i,1);continue;}
+    m.el.style.left=(worldToScreenX(m.wx)-13)+'px';
+    m.el.style.bottom=(GROUND+m.wy)+'px';
+  }
+  requestAnimationFrame(gameLoop);
+}
+
+function startGame(){
+  san=100;gameTime=TOTAL_TIME;survived=0;
+  playerWX=0;playerWY=0;pMoving=false;
+  monsters.forEach(m=>m.el.remove());monsters=[];
+  document.querySelectorAll('.flash').forEach(e=>e.remove());
+  spawnTimer=1.5;overlay.style.display='none';
+  createPlayer();drawTiles();
+  running=true;lastTs=performance.now();
+  requestAnimationFrame(gameLoop);
+}
+
+function endGame(won){
+  running=false;
+  ovTitle.textContent=won?'你幸存了！':'精神崩溃';
+  ovDesc.innerHTML=won?`坚持了完整的10分钟！<br>剩余精神值：${Math.round(san)}`:`精神值耗尽。<br>存活：${Math.floor(survived)}秒`;
+  overlay.querySelector('.btn').textContent='再试一次';
+  overlay.style.display='flex';
+  monsters.forEach(m=>m.el.remove());monsters=[];
+}
+
+document.addEventListener('keydown',e=>{keys[e.code]=true;if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))e.preventDefault();});
+document.addEventListener('keyup',e=>{keys[e.code]=false;});
+gc.addEventListener('click',()=>gc.focus());
+gc.focus();
+</script>
