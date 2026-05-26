@@ -5,9 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>噩梦幸存者</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    @media (orientation: portrait) {
+      #rotateWrap {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vh;
+        height: 100vw;
+        transform: rotate(90deg) translateY(-100%);
+        transform-origin: top left;
+        overflow: hidden;
+      }
+    }
+    @media (orientation: landscape) {
+      #rotateWrap {
+        width: 100vw;
+        height: 100vh;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <div id="rotateWrap">
   <div id="scene" tabindex="0">
 
     <div id="background"></div>
@@ -548,6 +568,8 @@
     /* 防止触屏滑动整页 */
     document.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
   </script>
+  </div>
+  </div>
 </body>
 
 </html>
