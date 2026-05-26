@@ -99,7 +99,7 @@
     const isTouchDevice = navigator.maxTouchPoints > 0;
     if (isTouchDevice) {
       const style = document.createElement('style');
-      style.textContent = '#character { height: 35vh !important; } .monster img { height: 35vh !important; } #character-wrap { bottom: -16px !important; }';
+      style.textContent = '#character { height: 35vh !important; } .monster img { height: 35vh !important; } #character-wrap { bottom: -16px !important; } .monster { bottom: -16px !important; }';
       document.head.appendChild(style);
     }
 
@@ -140,7 +140,7 @@
     });
 
     const MONSTER_H = 72;
-    const GROUND_BOTTOM = 0;
+    const GROUND_BOTTOM = isTouchDevice ? -16 : -8;
 
     /* ── 预加载所有地图图片 ── */
     let BG_WIDTH = SW * 3;
