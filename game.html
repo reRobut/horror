@@ -99,7 +99,7 @@
     const isTouchDevice = navigator.maxTouchPoints > 0;
     if (isTouchDevice) {
       const style = document.createElement('style');
-      style.textContent = '#character { height: 35vh !important; } .monster img { height: 35vh !important; }';
+      style.textContent = '#character { height: 35vh !important; } .monster img { height: 35vh !important; } #character-wrap { bottom: -16px !important; }';
       document.head.appendChild(style);
     }
 
