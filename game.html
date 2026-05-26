@@ -95,6 +95,14 @@
 
   </div>
   <script>
+    /* ── 触屏检测，手机缩小角色和怪物 ── */
+    const isTouchDevice = navigator.maxTouchPoints > 0;
+    if (isTouchDevice) {
+      const style = document.createElement('style');
+      style.textContent = '#character { height: 35vh !important; } .monster img { height: 35vh !important; }';
+      document.head.appendChild(style);
+    }
+
     /* ── DOM ── */
     const scene = document.getElementById('scene');
     const bg = document.getElementById('background');

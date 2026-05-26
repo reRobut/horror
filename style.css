@@ -485,9 +485,3 @@ body.page-index::before {
   0%   { opacity: 0; transform: translateY(8px); }
   100% { opacity: 1; transform: translateY(0); }
 }
-
-/* ── 手机横屏角色大小 ── */
-@media (pointer: coarse) and (orientation: landscape) {
-  #character { height: 35vh; }
-  .monster img { height: 35vh; }
-}
