@@ -14,7 +14,7 @@
     <div id="monsterLayer"></div>
 
     <div id="character-wrap">
-      <img id="character" src="/images/school/person.png" alt="character" draggable="false">
+      <img id="character" src="images/school/person.png" alt="character" draggable="false">
     </div>
 
     <div id="hitVignette"></div>
@@ -93,13 +93,13 @@
 
     /* ── 地图系统 ── */
     const ALL_MAPS = [
-      '/images/school/bg.png',
-      '/images/school/bg1.png',
-      '/images/school/bg2.png',
-      '/images/school/bg3.png',
-      '/images/school/bg4.png'
+      'images/school/bg.png',
+      'images/school/bg1.png',
+      'images/school/bg2.png',
+      'images/school/bg3.png',
+      'images/school/bg4.png'
     ];
-    let currentMap = '/images/school/bg.png';
+    let currentMap = 'images/school/bg.png';
     let transitioning = false;
 
     /* ── 屏幕尺寸（固定一次） ── */
@@ -123,12 +123,12 @@
         loadedCount++;
         if (loadedCount === ALL_MAPS.length) {
           /* 用第一张图算初始 BG_WIDTH */
-          const first = preloadedMaps['/images/school/bg.png'];
+          const first = preloadedMaps['images/school/bg.png'];
           if (first && first.naturalWidth) {
             BG_WIDTH = Math.round(first.naturalWidth * (SH / first.naturalHeight));
           }
           bg.style.width = BG_WIDTH + 'px';
-          bg.style.backgroundImage = `url('/images/school/bg.png')`;
+          bg.style.backgroundImage = `url('images/school/bg.png')`;
           /* 预加载完毕，隐藏加载屏，自动开始 */
           if (startBtn) startBtn.style.display = 'none';
           startGame();
@@ -232,9 +232,9 @@
 
     /* ── 怪物图片映射 ── */
     const MONSTER_IMG = {
-      1: '/images/school/red.png',
-      2: '/images/school/blue.png',
-      3: '/images/school/green.png'
+      1: 'images/school/red.png',
+      2: 'images/school/blue.png',
+      3: 'images/school/green.png'
     };
 
     /* ── 怪物 DOM ── */
@@ -463,10 +463,13 @@
 
     /* ── 开始/结束 ── */
     function startGame() {
+      if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('landscape').catch(() => {});
+      }
       san = 100;
       gameTime = TOTAL_TIME;
       survived = 0;
-      currentMap = '/images/school/bg.png';
+      currentMap = 'images/school/bg.png';
       transitioning = false;
       gameStarted = false;
       pMoving = false;
@@ -477,7 +480,7 @@
       spawnTimer = 1.5;
       mapFade.classList.remove('fade-in');
       overlay.style.display = 'none';
-      applyMap('/images/school/bg.png');   /* 先更新 BG_WIDTH */
+      applyMap('images/school/bg.png');   /* 先更新 BG_WIDTH */
       worldX = BG_WIDTH / 2;              /* 再居中 */
       running = true;
       lastTs = performance.now();
