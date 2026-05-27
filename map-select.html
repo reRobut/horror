@@ -1,76 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>选择地图 — 噩梦幸存者</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body class="page-map-select">
-  <div class="container container--wide">
-    <button class="back-btn" onclick="window.location.href='index.html'">← 返回</button>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>选择地图 — 噩梦幸存者</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body class="page-map-select">
+		<div class="container container--wide">
+			<button class="back-btn" onclick="window.location.href = 'index.html'">← 返回</button>
 
-    <div class="title title--sm">选择地图</div>
-    <div class="subtitle">开始你的噩梦</div>
+			<div class="title title--sm">选择地图</div>
+			<div class="subtitle">开始你的噩梦</div>
 
-    <div class="divider"></div>
+			<div class="divider"></div>
 
-    <div class="map-grid" id="mapGrid">
+			<div class="map-grid" id="mapGrid">
+				<!-- 学校地图 -->
+				<div class="map-card" onclick="startMap('school')">
+					<div class="map-thumb-wrap">
+						<img
+							src="images/thumbnails/school.png"
+							alt="学校"
+							class="map-thumb"
+							onerror="
+								this.style.display = 'none';
+								this.nextElementSibling.style.display = 'flex';
+							" />
+						<div class="map-thumb-placeholder" style="display: none">
+							<span>学校</span>
+						</div>
+						<div class="map-badge map-badge--unlocked">可进入</div>
+					</div>
+					<div class="map-info">
+						<div class="map-name">学校</div>
+						<div class="map-sub">SCHOOL</div>
+					</div>
+				</div>
 
-      <!-- 学校地图 -->
-      <div class="map-card" onclick="startMap('school')">
-        <div class="map-thumb-wrap">
-          <img src="images/thumbnails/school.png" alt="学校" class="map-thumb" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="map-thumb-placeholder" style="display:none">
-            <span>学校</span>
-          </div>
-          <div class="map-badge map-badge--unlocked">可进入</div>
-        </div>
-        <div class="map-info">
-          <div class="map-name">废弃学校</div>
-          <div class="map-sub">SCHOOL</div>
-          <div class="map-monsters">
-            <span class="monster-dot" style="background:#e03030" title="追击者"></span>
-            <span class="monster-dot" style="background:#4060d0" title="静止者"></span>
-            <span class="monster-dot" style="background:#30a030" title="潜伏者"></span>
-          </div>
-        </div>
-      </div>
+				<!-- 街道地图 -->
+				<div class="map-card" onclick="startMap('street')">
+					<div class="map-thumb-wrap">
+						<img
+							src="images/thumbnails/street.png"
+							alt="街道"
+							class="map-thumb"
+							onerror="
+								this.style.display = 'none';
+								this.nextElementSibling.style.display = 'flex';
+							" />
+						<div class="map-thumb-placeholder" style="display: none">
+							<span>街道</span>
+						</div>
+						<div class="map-badge map-badge--unlocked">可进入</div>
+					</div>
+					<div class="map-info">
+						<div class="map-name">街道</div>
+						<div class="map-sub">STREET</div>
+					</div>
+				</div>
 
-      <!-- 占位地图（未解锁） -->
-      <div class="map-card map-card--locked">
-        <div class="map-thumb-wrap">
-          <div class="map-thumb-placeholder map-thumb-placeholder--locked">
-            <span>???</span>
-          </div>
-          <div class="map-badge map-badge--locked">未解锁</div>
-        </div>
-        <div class="map-info">
-          <div class="map-name" style="color:#555">???</div>
-          <div class="map-sub" style="color:#444">UNKNOWN</div>
-        </div>
-      </div>
+				<div class="map-card map-card--locked">
+					<div class="map-thumb-wrap">
+						<div class="map-thumb-placeholder map-thumb-placeholder--locked">
+							<span>???</span>
+						</div>
+						<div class="map-badge map-badge--locked">未解锁</div>
+					</div>
+					<div class="map-info">
+						<div class="map-name" style="color: #555">???</div>
+						<div class="map-sub" style="color: #444">UNKNOWN</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-      <div class="map-card map-card--locked">
-        <div class="map-thumb-wrap">
-          <div class="map-thumb-placeholder map-thumb-placeholder--locked">
-            <span>???</span>
-          </div>
-          <div class="map-badge map-badge--locked">未解锁</div>
-        </div>
-        <div class="map-info">
-          <div class="map-name" style="color:#555">???</div>
-          <div class="map-sub" style="color:#444">UNKNOWN</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <script>
-    function startMap(mapId) {
-      window.location.href = 'game.html?map=' + mapId;
-    }
-  </script>
-</body>
+		<script>
+			function startMap(mapId) {
+				const mapRoutes = {
+					school: "school.html",
+					street: "street.html",
+				};
+				window.location.href = mapRoutes[mapId] || "game.html?map=" + mapId;
+			}
+		</script>
+	</body>
 </html>
