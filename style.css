@@ -519,6 +519,9 @@ body.page-bestiary {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	height: auto;
+	min-height: 100vh;
+	justify-content: flex-start;
 }
 
 @media (max-width: 480px) {
