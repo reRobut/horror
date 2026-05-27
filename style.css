@@ -691,13 +691,13 @@ body.page-bestiary {
 /* 类型说明：固定三列 */
 .type-grid {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: repeat(2, 1fr);
 	gap: 14px;
 	width: 100%;
 }
 
-@media (max-width: 640px) {
-	.type-grid { grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 640px) {
+	.type-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 .type-card {
@@ -785,13 +785,13 @@ body.page-bestiary {
 /* 怪物卡：固定三列 */
 .monster-grid {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: repeat(2, 1fr);
 	gap: 16px;
 	width: 100%;
 }
 
-@media (max-width: 600px) {
-	.monster-grid { grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 600px) {
+	.monster-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 .monster-card {
