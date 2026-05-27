@@ -34,9 +34,7 @@ body.page-game {
 	cursor: pointer;
 	font-family: inherit;
 	letter-spacing: 2px;
-	transition:
-		background 0.18s,
-		box-shadow 0.18s;
+	transition: background 0.18s, box-shadow 0.18s;
 }
 .btn:hover {
 	background: rgba(255, 255, 255, 0.12);
@@ -70,7 +68,9 @@ body.page-index::before {
 	content: "";
 	position: fixed;
 	inset: 0;
-	background: radial-gradient(ellipse at 20% 50%, rgba(40, 40, 40, 0.2) 0%, transparent 60%), radial-gradient(ellipse at 80% 30%, rgba(20, 20, 20, 0.15) 0%, transparent 50%);
+	background:
+		radial-gradient(ellipse at 20% 50%, rgba(40, 40, 40, 0.2) 0%, transparent 60%),
+		radial-gradient(ellipse at 80% 30%, rgba(20, 20, 20, 0.15) 0%, transparent 50%);
 	pointer-events: none;
 }
 
@@ -97,28 +97,16 @@ body.page-index::before {
 }
 
 @keyframes flicker {
-	0%,
-	95%,
-	100% {
-		opacity: 1;
-	}
-	96% {
-		opacity: 0.7;
-	}
-	97% {
-		opacity: 1;
-	}
-	98% {
-		opacity: 0.5;
-	}
-	99% {
-		opacity: 1;
-	}
+	0%, 95%, 100% { opacity: 1; }
+	96%  { opacity: 0.7; }
+	97%  { opacity: 1; }
+	98%  { opacity: 0.5; }
+	99%  { opacity: 1; }
 }
 
 .subtitle {
 	font-size: 13px;
-	color: #ffffff;
+	color: #888888;
 	letter-spacing: 3px;
 }
 
@@ -182,10 +170,7 @@ body.page-index::before {
 	border-radius: 6px;
 	cursor: pointer;
 	font-family: inherit;
-	transition:
-		border-color 0.18s,
-		color 0.18s,
-		background 0.18s;
+	transition: border-color 0.18s, color 0.18s, background 0.18s;
 }
 .btn-secondary:hover {
 	border-color: rgba(255, 255, 255, 0.55);
@@ -234,12 +219,8 @@ body.page-index::before {
 }
 
 @keyframes bob {
-	0% {
-		transform: translateY(0px);
-	}
-	100% {
-		transform: translateY(-6px);
-	}
+	0%   { transform: translateY(0px); }
+	100% { transform: translateY(-6px); }
 }
 
 #character.walking {
@@ -270,12 +251,8 @@ body.page-index::before {
 }
 
 @keyframes monster-bob {
-	0% {
-		transform: scaleX(var(--sx, 1)) translateY(0px);
-	}
-	100% {
-		transform: scaleX(var(--sx, 1)) translateY(-8px);
-	}
+	0%   { transform: scaleX(var(--sx, 1)) translateY(0px); }
+	100% { transform: scaleX(var(--sx, 1)) translateY(-8px); }
 }
 
 .monster img.walking {
@@ -415,12 +392,8 @@ body.page-index::before {
 	background: rgba(255, 255, 255, 0.22);
 }
 
-#tLeft {
-	left: 16px;
-}
-#tRight {
-	right: 16px;
-}
+#tLeft  { left: 16px; }
+#tRight { right: 16px; }
 
 #tSprint {
 	position: absolute;
@@ -450,12 +423,8 @@ body.page-index::before {
 }
 
 @media (pointer: coarse) {
-	#keys {
-		display: none;
-	}
-	#touchControls {
-		display: block;
-	}
+	#keys { display: none; }
+	#touchControls { display: block; }
 }
 
 .flash {
@@ -466,25 +435,13 @@ body.page-index::before {
 	pointer-events: none;
 	animation: fu 0.9s forwards;
 }
-.flash.dmg {
-	color: #ff3060;
-}
-.flash.ok {
-	color: #60ff90;
-}
-.flash.warn {
-	color: #ffa030;
-}
+.flash.dmg  { color: #ff3060; }
+.flash.ok   { color: #60ff90; }
+.flash.warn { color: #ffa030; }
 
 @keyframes fu {
-	0% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-	100% {
-		opacity: 0;
-		transform: translateY(-40px);
-	}
+	0%   { opacity: 1; transform: translateY(0); }
+	100% { opacity: 0; transform: translateY(-40px); }
 }
 
 #hitVignette {
@@ -540,14 +497,8 @@ body.page-index::before {
 }
 
 @keyframes fadeInText {
-	0% {
-		opacity: 0;
-		transform: translateY(8px);
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0);
-	}
+	0%   { opacity: 0; transform: translateY(8px); }
+	100% { opacity: 1; transform: translateY(0); }
 }
 
 /* ════════════════════════════════════
@@ -610,9 +561,7 @@ body.page-bestiary {
 }
 
 @media (max-width: 600px) {
-	.map-grid {
-		grid-template-columns: 1fr;
-	}
+	.map-grid { grid-template-columns: 1fr; }
 }
 
 .map-card {
@@ -622,10 +571,7 @@ body.page-bestiary {
 	overflow: hidden;
 	cursor: pointer;
 	display: block;
-	transition:
-		border-color 0.2s,
-		transform 0.15s,
-		background 0.2s;
+	transition: border-color 0.2s, transform 0.15s, background 0.2s;
 }
 .map-card:hover {
 	border-color: rgba(255, 255, 255, 0.35);
@@ -666,7 +612,13 @@ body.page-bestiary {
 	letter-spacing: 2px;
 }
 .map-thumb-placeholder--locked {
-	background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 4px, transparent 4px, transparent 12px);
+	background: repeating-linear-gradient(
+		45deg,
+		rgba(255, 255, 255, 0.03) 0px,
+		rgba(255, 255, 255, 0.03) 4px,
+		transparent 4px,
+		transparent 12px
+	);
 }
 
 .map-badge {
@@ -729,7 +681,7 @@ body.page-bestiary {
 .section-label {
 	font-size: 11px;
 	letter-spacing: 3px;
-	color: rgb(255, 255, 255);
+	color: rgba(255, 255, 255, 0.3);
 	text-transform: uppercase;
 	margin-bottom: 18px;
 	border-left: 2px solid rgba(255, 255, 255, 0.15);
@@ -745,9 +697,7 @@ body.page-bestiary {
 }
 
 @media (max-width: 640px) {
-	.type-grid {
-		grid-template-columns: 1fr;
-	}
+	.type-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 .type-card {
@@ -772,21 +722,9 @@ body.page-bestiary {
 	font-size: 16px;
 	font-weight: 700;
 }
-.type-icon-wrap--red {
-	background: rgba(224, 48, 48, 0.15);
-	color: #e03030;
-	border: 1px solid rgba(224, 48, 48, 0.3);
-}
-.type-icon-wrap--blue {
-	background: rgba(64, 96, 208, 0.15);
-	color: #6080e8;
-	border: 1px solid rgba(64, 96, 208, 0.3);
-}
-.type-icon-wrap--green {
-	background: rgba(48, 160, 48, 0.15);
-	color: #50c050;
-	border: 1px solid rgba(48, 160, 48, 0.3);
-}
+.type-icon-wrap--red   { background: rgba(224, 48, 48, 0.15);  color: #e03030; border: 1px solid rgba(224, 48, 48, 0.3); }
+.type-icon-wrap--blue  { background: rgba(64, 96, 208, 0.15);  color: #6080e8; border: 1px solid rgba(64, 96, 208, 0.3); }
+.type-icon-wrap--green { background: rgba(48, 160, 48, 0.15);  color: #50c050; border: 1px solid rgba(48, 160, 48, 0.3); }
 
 .type-info {
 	flex: 1;
@@ -821,15 +759,9 @@ body.page-bestiary {
 	align-items: center;
 	gap: 5px;
 }
-.rule-icon {
-	font-style: normal;
-}
-.rule-icon--danger {
-	color: #e06040;
-}
-.rule-icon--info {
-	color: #6080e8;
-}
+.rule-icon { font-style: normal; }
+.rule-icon--danger { color: #e06040; }
+.rule-icon--info   { color: #6080e8; }
 
 /* 地图怪物区 */
 .map-section {
@@ -846,7 +778,7 @@ body.page-bestiary {
 .map-section-sub {
 	font-size: 10px;
 	letter-spacing: 3px;
-	color: rgb(255, 255, 255);
+	color: rgba(255, 255, 255, 0.25);
 	margin-top: 2px;
 }
 
@@ -858,10 +790,8 @@ body.page-bestiary {
 	width: 100%;
 }
 
-@media (max-width: 500px) {
-	.monster-grid {
-		grid-template-columns: 1fr;
-	}
+@media (max-width: 600px) {
+	.monster-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 .monster-card {
