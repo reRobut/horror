@@ -1,39 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>噩梦幸存者</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body class="page-index">
-  <div class="container">
-    <div class="title">噩梦幸存者</div>
-    <div class="subtitle">NIGHTMARE SURVIVOR</div>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>噩梦幸存者</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body class="page-index">
+		<div class="container">
+			<div class="title">噩梦幸存者</div>
+			<div class="subtitle">NIGHTMARE SURVIVOR</div>
 
-    <div class="divider"></div>
+			<div class="divider"></div>
 
-    <div class="desc">
-      在噩梦中存活 <b style="color:#ffffff">5分钟</b>。<br>
-    </div>
+			<div class="desc">在噩梦中存活 <b style="color: #ffffff">5分钟</b><br /></div>
 
-    <div class="legend">
-      <div class="lr"><div class="ld" style="background:#e03030"></div>追击者 — 靠近玩家，追几秒就消失了</div>
-      <div class="lr"><div class="ld" style="background:#4060d0"></div>静止者 — 靠近玩家，接触时站着不动就没事</div>
-      <div class="lr"><div class="ld" style="background:#30a030"></div>潜伏者 — 靠近惊扰后狂暴追击</div>
-    </div>
+			<div class="btn-group">
+				<button class="btn" onclick="goToGame()">入睡</button>
+				<button class="btn btn-secondary" onclick="goToBestiary()">怪物图鉴</button>
+			</div>
+		</div>
 
-    <div class="keys">
-      <div>移动: <span>← →</span></div>
-    </div>
-
-    <button class="btn" onclick="goToGame()">入睡</button>
-  </div>
-
-  <script>
-    function goToGame() {
-      window.location.href = 'game.html';
-    }
-  </script>
-</body>
+		<script>
+			function goToGame() {
+				window.location.href = "map-select.html";
+			}
+			function goToBestiary() {
+				window.location.href = "bestiary.html";
+			}
+		</script>
+	</body>
 </html>

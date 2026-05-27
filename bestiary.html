@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>怪物图鉴 — 噩梦幸存者</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body class="page-bestiary">
+		<div class="container container--wide">
+			<button class="back-btn" onclick="window.location.href = 'index.html'">← 返回</button>
+
+			<div class="title title--sm">怪物图鉴</div>
+			<div class="subtitle">BESTIARY</div>
+
+			<div class="divider"></div>
+
+			<!-- 怪物类型说明 -->
+			<section class="bestiary-section">
+				<div class="section-label">怪物类型</div>
+				<div class="type-grid">
+					<div class="type-card">
+						<div class="type-icon-wrap type-icon-wrap--red">
+							<div class="type-icon-symbol">追</div>
+						</div>
+						<div class="type-info">
+							<div class="type-name" style="color: #e03030">追击者</div>
+							<div class="type-tag" style="border-color: #e03030; color: #e03030">CHASER</div>
+							<div class="type-desc">一旦生成便会追击玩家，但只会追逐几秒，随后自行消失。保持距离，等它离去。</div>
+							<div class="type-rule"><span class="rule-icon rule-icon--danger">⚠</span>跑就完了</div>
+						</div>
+					</div>
+
+					<div class="type-card">
+						<div class="type-icon-wrap type-icon-wrap--blue">
+							<div class="type-icon-symbol">静</div>
+						</div>
+						<div class="type-info">
+							<div class="type-name" style="color: #4060d0">静止者</div>
+							<div class="type-tag" style="border-color: #4060d0; color: #4060d0">STALKER</div>
+							<div class="type-desc">一旦生成便会追击玩家，接触时只要站立不动，就不会被伤害。保持冷静，切勿移动。</div>
+							<div class="type-rule"><span class="rule-icon rule-icon--info">★</span>接触时站立不动即可安全通过</div>
+						</div>
+					</div>
+
+					<div class="type-card">
+						<div class="type-icon-wrap type-icon-wrap--green">
+							<div class="type-icon-symbol">潜</div>
+						</div>
+						<div class="type-info">
+							<div class="type-name" style="color: #30a030">潜伏者</div>
+							<div class="type-tag" style="border-color: #30a030; color: #30a030">LURKER</div>
+							<div class="type-desc">平时看似静止无害，一旦受到惊扰便会进入狂暴状态，展开追击。</div>
+							<div class="type-rule"><span class="rule-icon rule-icon--danger">⚠</span>勿惊扰，否则无法摆脱</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<div class="divider"></div>
+
+			<!-- 地图怪物列表 -->
+			<section class="bestiary-section">
+				<div class="section-label">地图怪物</div>
+
+				<!-- 学校地图 -->
+				<div class="map-section">
+					<div class="map-section-header">
+						<div class="map-section-title">学校</div>
+						<div class="map-section-sub">SCHOOL</div>
+					</div>
+
+					<div class="monster-grid">
+						<!-- 追击者 -->
+						<div class="monster-card" style="--accent: #e03030">
+							<div class="monster-img-wrap" style="border-color: #e03030">
+								<!-- 未通关时显示剪影 -->
+								<img src="images/school/red.png" alt="追击者" class="monster-img monster-img--silhouette" id="monster-school-red" onerror="this.classList.add('monster-img--error')" />
+								<div class="monster-type-badge" style="background: #e03030">追击者</div>
+							</div>
+							<div class="monster-card-info">
+								<div class="monster-card-name">过载</div>
+								<div class="monster-card-type" style="color: #e03030">CHASER</div>
+								<div class="monster-card-desc">它曾经也是坐在教室里的普通一员，直到某一个熬夜学习的深夜，最后一根紧绷的神经彻底断裂。</div>
+							</div>
+						</div>
+
+						<!-- 静止者 -->
+						<div class="monster-card" style="--accent: #4060d0">
+							<div class="monster-img-wrap" style="border-color: #4060d0">
+								<img src="images/school/blue.png" alt="静止者" class="monster-img monster-img--silhouette" id="monster-school-blue" onerror="this.classList.add('monster-img--error')" />
+								<div class="monster-type-badge" style="background: #4060d0">静止者</div>
+							</div>
+							<div class="monster-card-info">
+								<div class="monster-card-name">答题机器</div>
+								<div class="monster-card-type" style="color: #4060d0">STALKER</div>
+								<div class="monster-card-desc">两眼无神，笔尖不停。他们还活着，但早就死了。</div>
+							</div>
+						</div>
+
+						<!-- 潜伏者 -->
+						<div class="monster-card" style="--accent: #30a030">
+							<div class="monster-img-wrap" style="border-color: #30a030">
+								<img src="images/school/green.png" alt="潜伏者" class="monster-img monster-img--silhouette" id="monster-school-green" onerror="this.classList.add('monster-img--error')" />
+								<div class="monster-type-badge" style="background: #30a030">潜伏者</div>
+							</div>
+							<div class="monster-card-info">
+								<div class="monster-card-name">试卷木乃伊</div>
+								<div class="monster-card-type" style="color: #30a030">LURKER</div>
+								<div class="monster-card-desc">你是活生生的人，还是由分数拼凑起来的标本？</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="unlock-hint"><span class="unlock-icon">🔒</span>通关学校地图后，怪物图像将完整显示</div>
+				</div>
+			</section>
+		</div>
+
+		<script>
+			// 通关状态检测：从 localStorage 读取通关记录
+			// 若已通关，移除剪影效果
+			const cleared = JSON.parse(localStorage.getItem("clearedMaps") || "{}");
+			if (cleared["school"]) {
+				document.querySelectorAll(".monster-img--silhouette").forEach((img) => {
+					img.classList.remove("monster-img--silhouette");
+				});
+				const hint = document.querySelector(".unlock-hint");
+				if (hint) hint.style.display = "none";
+			}
+		</script>
+	</body>
+</html>
